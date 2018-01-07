@@ -1,35 +1,42 @@
-var CronJob = require('cron').CronJob;
-var request = require('request');
+const CronJob = require('cron').CronJob;
+const request = require('request');
+const config = require('../config');
+
+const cities = ['Sofia', 'Rome', 'London'];
 
 function transformDate(date) {
     return date.slice(0, 10) + 'T' + date.slice(11) + ':00:00';
+}
+
+function transformTemperatureData(temperatureData, city) {
+    return {
+        temperature: temperatureData.temp,
+        city: city,
+        datetime: new Date(transformDate(temperatureData.datetime))
+    }
+}
+
+function getWeatherbitForecastUrl(city) {
+    const baseUrl = 'https://api.weatherbit.io/v2.0/forecast/3hourly?city=';
+    return baseUrl + city + '&key=' + config.weatherApiKey;
 }
 
 const init = (data) => {
     // the job is executed on every third hour
     //new CronJob('0 */3 * * * *', () => {
     new CronJob('*/3 * * * * *', () => {
-        console.log(new Date());
+        cities.forEach((city) => {
+            request
+                .get(getWeatherbitForecastUrl(city), (err, response, body) => {
+                    var parsedBody = JSON.parse(body);
 
-        request
-            .get('https://api.weatherbit.io/v2.0/forecast/3hourly?city=Sofia&key=adc675edc9a148518ced4c8fc14c2996', (err, response, body) => {
-                var temperaturesData = [];
-                var parsedBody = JSON.parse(body);
+                    for (temperatureData of parsedBody.data) {
+                        var newTemperatureData = transformTemperatureData(temperatureData, city);
 
-                for (temperatureData of parsedBody.data) {
-                    var newTemperatureData = {
-                        temperature: temperatureData.temp,
-                        city: 'Sofia',
-                        datetime: new Date(transformDate(temperatureData.datetime))
+                        data.temperatures.updateTemperatureForCityOnDatetime(newTemperatureData);
                     }
-
-                    temperaturesData.push(newTemperatureData);
-                }
-
-                console.log(temperaturesData);
-
-                data.temperatures.create(temperaturesData);
-            });
+                });
+        });
     }, null, true);
 };
 

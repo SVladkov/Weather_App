@@ -9,6 +9,16 @@ class TemperatureData {
         return this.collection.find().toArray();
     }
 
+    updateTemperatureForCityOnDatetime(temperatureData) {
+        return this.collection.update({
+            'city': temperatureData.city,
+            'datetime': temperatureData.datetime
+        },
+        temperatureData, {
+            upsert: true
+        });
+    }
+
     create(model) {
         return this.collection.insert(model);
     }
