@@ -5,8 +5,8 @@ class TemperatureData {
         this.collection = this.db.collection(this.collectionName);
     }
 
-    getAll() {
-        return this.collection.find().toArray();
+    getForecastForCity(city) {
+        return this.collection.find({'city': city}).sort({ 'datetime' : 1 }).toArray();
     }
 
     updateTemperatureForCityOnDatetime(temperatureData) {

@@ -23,12 +23,22 @@ function getWeatherbitForecastUrl(city) {
 
 const init = (data) => {
     // the job is executed on every third hour
-    //new CronJob('0 */3 * * * *', () => {
-    new CronJob('*/3 * * * * *', () => {
+    new CronJob('0 */3 * * * *', () => {
+    //new CronJob('*/3 * * * * *', () => {
         cities.forEach((city) => {
             request
                 .get(getWeatherbitForecastUrl(city), (err, response, body) => {
+                    console.log('request to weather api');
+                    if (err) {
+                        console.log(err);
+                    }
+
                     var parsedBody = JSON.parse(body);
+
+                    if (response.statusCode >= 400) {
+                        throw new Error('Weather forecast could not be fetched. Got status code '
+                            + parsedBody.status_code + ' and status message "' + parsedBody.status_message + '"');
+                    }
 
                     for (temperatureData of parsedBody.data) {
                         var newTemperatureData = transformTemperatureData(temperatureData, city);

@@ -1,5 +1,4 @@
-var config = require('./config');
-
+const config = require('./config');
 const db = require('./db');
 const data = require('./data');
 const serverApp = require('./serverApp');

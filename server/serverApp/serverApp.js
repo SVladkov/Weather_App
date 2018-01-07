@@ -1,10 +1,14 @@
-var express = require('express');
+const express = require('express');
+const cors = require('cors');
 
 const init = (data) => {
     const app = express();
 
-    app.get('/', (req, res) => {
-        res.send('Welcome to my weather website!');
+    app.use(cors());
+    app.get('/forecast', (req, res) => {
+        data.temperatures.getForecastForCity(req.query.city).then((forecast) => {
+            res.send(forecast);
+        });
     });
 
     return Promise.resolve(app);
