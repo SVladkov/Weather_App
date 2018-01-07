@@ -1,6 +1,10 @@
 var CronJob = require('cron').CronJob;
 var request = require('request');
 
+function transformDate(date) {
+    return date.slice(0, 10) + 'T' + date.slice(11) + ':00:00';
+}
+
 const init = (data) => {
     // the job is executed on every third hour
     //new CronJob('0 */3 * * * *', () => {
@@ -16,7 +20,7 @@ const init = (data) => {
                     var newTemperatureData = {
                         temperature: temperatureData.temp,
                         city: 'Sofia',
-                        datetime: temperatureData.datetime
+                        datetime: new Date(transformDate(temperatureData.datetime))
                     }
 
                     temperaturesData.push(newTemperatureData);

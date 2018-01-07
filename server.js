@@ -8,7 +8,6 @@ const weatherFetcher = require('./weatherFetcher');
 db.init(config.connectionString)
     .then((db) => data.init(db))
     .then((data) => {
-        console.log(data);
         weatherFetcher.init(data);
         return serverApp.init(data);
     })
