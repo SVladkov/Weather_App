@@ -11,6 +11,11 @@ const init = (data) => {
         });
     });
 
+    app.get('/login', (req, res) => {
+        //console.log(req);
+        res.send('ok');
+    });
+
     return Promise.resolve(app);
 };
 

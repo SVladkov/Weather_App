@@ -23,7 +23,8 @@ function getWeatherbitForecastUrl(city) {
 
 const init = (data) => {
     // the job is executed on every third hour
-    new CronJob('0 */3 * * * *', () => {
+    new CronJob('0 0 0 * * *', () => {
+    //new CronJob('0 */3 * * * *', () => {
     //new CronJob('*/3 * * * * *', () => {
         cities.forEach((city) => {
             request
