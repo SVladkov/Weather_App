@@ -1,0 +1,17 @@
+<div>Search:</div>
+<input ng-model="city"></input>
+<button ng-click="getForecastForCity(city)">Search</button>
+
+<div ng-bind="error"></div>
+
+<br>
+<table>
+    <tr>
+        <th>Date and time</th>
+        <th>Temperature</th>
+    </tr>
+    <tr ng-repeat="temperatureData in temperaturesData">
+        <td>{{temperatureData.datetime}}</td>
+        <td>{{temperatureData.temperature}}</td>
+    </tr>
+</table>

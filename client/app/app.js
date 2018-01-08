@@ -4,7 +4,7 @@
 angular.module('myApp', [
   'ngRoute',
   'myApp.login',
-  'myApp.view2',
+  'myApp.weather',
   'myApp.version'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
