@@ -11,10 +11,11 @@
     "request": "^2.83.0"
   },
   "devDependencies": {
-    "nodemon": "^1.14.8"
+    "nodemon": "^1.14.8",
+    "tap": "^11.0.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/test.js"
   },
   "repository": {
     "type": "git",
