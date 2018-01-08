@@ -2,16 +2,22 @@
 <input ng-model="city"></input>
 <button ng-click="getForecastForCity(city)">Search</button>
 
+<div ng-bind="cityLabel"></div>
 <div ng-bind="error"></div>
 
 <br>
-<table>
-    <tr>
-        <th>Date and time</th>
-        <th>Temperature</th>
-    </tr>
-    <tr ng-repeat="temperatureData in temperaturesData">
-        <td>{{temperatureData.datetime}}</td>
-        <td>{{temperatureData.temperature}}</td>
-    </tr>
-</table>
+<div ng-show="isCityAvailable">
+    <div>Max temperature of {{ maxTemperature.temperature }} degrees, {{ maxTemperature.datetime }}</div>
+    <div>Min temperature of {{ minTemperature.temperature }} degrees, {{ minTemperature.datetime }}</div>
+    <br>
+    <table>
+        <tr>
+            <th style="padding-right: 20px">Date and time</th>
+            <th>Temperature</th>
+        </tr>
+        <tr ng-repeat="temperatureData in temperaturesData">
+            <td>{{ transformDate(temperatureData.datetime) }}</td>
+            <td>{{temperatureData.temperature}}</td>
+        </tr>
+    </table>
+</div>
