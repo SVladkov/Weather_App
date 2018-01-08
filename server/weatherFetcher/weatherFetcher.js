@@ -2,7 +2,7 @@ const CronJob = require('cron').CronJob;
 const request = require('request');
 const config = require('../config');
 
-const cities = ['Sofia', 'Rome', 'London'];
+const cities = ['Sofia', 'Rome', 'London', 'Paris', 'New York'];
 
 function transformDate(date) {
     return date.slice(0, 10) + 'T' + date.slice(11) + ':00:00';
@@ -23,9 +23,7 @@ function getWeatherbitForecastUrl(city) {
 
 const init = (data) => {
     // the job is executed on every third hour
-    new CronJob('0 0 0 * * *', () => {
-    //new CronJob('0 */3 * * * *', () => {
-    //new CronJob('*/3 * * * * *', () => {
+    new CronJob('0 */3 * * * *', () => {
         cities.forEach((city) => {
             request
                 .get(getWeatherbitForecastUrl(city), (err, response, body) => {
